@@ -1,5 +1,10 @@
 package org.batalhaNaval;
 
+import Navios.Embarcacao;
+
+import java.util.List;
+import java.util.Random;
+
 public class Mapa {
     private final int linhas = 16;
     private final int colunas = 16;
@@ -21,8 +26,73 @@ public class Mapa {
     }
 
 
-    public boolean inserir(int x, int y, int tamanho, boolean horizontal) {
-        // Validação e posicionamento
+    public void posicionar(List<Embarcacao> embarcacoes) {
+        Random rand = new Random();
+
+        for (Embarcacao e : embarcacoes) {
+            boolean colocado = false;
+            int tentativas = 0;
+
+            while (!colocado && tentativas < 1000) {
+                int x = rand.nextInt(linhas);
+                int y = rand.nextInt(colunas);
+                int direcao = rand.nextInt(3); // 0 = horizontal, 1 = vertical, 2 = diagonal
+
+                if (podeColocar(x, y, e.getTamanho(), direcao)) {
+                    colocar(x, y, e, direcao);
+                    colocado = true;
+                }
+
+                tentativas++;
+            }
+
+            if (!colocado) {
+                System.out.println("Falha ao posicionar navio: " + e.getClass().getSimpleName());
+            }
+        }
+    }
+
+    // Pega os barcos da classe anterior testa se da pra colocar no mapa
+    private boolean podeColocar(int x, int y, int tamanho, int direcao) {
+        int dx = 0, dy = 0;
+
+        switch(direcao) {
+            case 0 -> dy = 1; //horizontal
+            case 1 -> dx = 1; //vertical
+            case 2 -> { dx = 1; dy = 1; } //diagonal
+            default ->  throw new IllegalArgumentException("Direção invalida");
+        }
+
+        int fimX = x + dx * (tamanho - 1);
+        int fimY = y + dy * (tamanho - 1);
+        if (fimX >= linhas || fimY >= colunas) return false;
+
+        for (int i = 0; i < tamanho; i++) {
+            int nx = x + dx * i;
+            int ny = y + dy * i;
+            if (mapaInterno[nx][ny] != 'V') return false; // já ocupado
+        }
+
+        return true;
+    }
+
+    private void colocar(int x, int y, Embarcacao e, int direcao) {
+        int dx = 0, dy = 0;
+
+        switch (direcao) {
+            case 0 -> dy = 1; // horizontal
+            case 1 -> dx = 1; // vertical
+            case 2 -> {
+                dx = 1;
+                dy = 1;
+            }
+        }
+
+        for (int i = 0; i < e.getTamanho(); i++) {
+            int nx = x + dx * i;
+            int ny = y + dy * i;
+            mapaInterno[nx][ny] = e.getNome();
+        }
     }
 
     public boolean atacar(int x, int y) {
