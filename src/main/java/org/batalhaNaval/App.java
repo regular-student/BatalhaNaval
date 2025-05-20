@@ -1,4 +1,4 @@
-package org.reverse;
+package org.batalhaNaval;
 
 public class App {
     public static void main(String[] args) {

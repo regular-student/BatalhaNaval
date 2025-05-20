@@ -1,4 +1,4 @@
-package org.reverse;
+package org.batalhaNaval;
 
 public class Jogador {
     private String nome;
@@ -8,5 +8,13 @@ public class Jogador {
     public Jogador(String nome) {
         this.nome = nome;
         this.mapa = new Mapa;
+    }
+
+    public Mapa getMapa() {
+        return mapa;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

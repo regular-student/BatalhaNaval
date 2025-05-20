@@ -1,8 +1,8 @@
-package org.reverse;
+package org.batalhaNaval;
 
 public class Mapa {
-    private final int linhas = 10;
-    private final int colunas = 10;
+    private final int linhas = 16;
+    private final int colunas = 16;
 
     private final char[][] mapaVisivel = new char[linhas][colunas];
     private final char[][] mapaInterno = new char[linhas][colunas];
@@ -26,7 +26,16 @@ public class Mapa {
     }
 
     public boolean atacar(int x, int y) {
-        // To-do: Atualiza o mapa visível com X ou A
+        if (mapaInterno[x][y] != 'V') {
+            mapaInterno[x][y] = 'Y';
+            return true;
+        }
+
+        return false;
+    }
+
+    public void marcar(int x, int y, char afundar) {
+        mapaVisivel[x][y] = afundar;
     }
 
     public void imprimir() {

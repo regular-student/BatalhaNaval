@@ -1,4 +1,4 @@
-package org.reverse;
+package org.batalhaNaval;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
