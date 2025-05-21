@@ -1,9 +1,9 @@
 package org.batalhaNaval;
 
-import Navios.Embarcacao;
-
 import java.util.List;
 import java.util.Random;
+
+import Navios.Embarcacao;
 
 public class Mapa {
     private final int linhas = 16;
@@ -15,7 +15,7 @@ public class Mapa {
     public Mapa() {
         inicializarMapas();
     }
-
+    
     public void inicializarMapas() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
@@ -28,6 +28,7 @@ public class Mapa {
 
     public void posicionar(List<Embarcacao> embarcacoes) {
         Random rand = new Random();
+        int id = 0;
 
         for (Embarcacao e : embarcacoes) {
             boolean colocado = false;
@@ -39,7 +40,7 @@ public class Mapa {
                 int direcao = rand.nextInt(3); // 0 = horizontal, 1 = vertical, 2 = diagonal
 
                 if (podeColocar(x, y, e.getTamanho(), direcao)) {
-                    colocar(x, y, e, direcao);
+                    colocar(x, y, e, direcao, id);
                     colocado = true;
                 }
 
@@ -76,7 +77,7 @@ public class Mapa {
         return true;
     }
 
-    private void colocar(int x, int y, Embarcacao e, int direcao) {
+    private void colocar(int x, int y, Embarcacao e, int direcao, int id) {
         int dx = 0, dy = 0;
 
         switch (direcao) {
@@ -93,6 +94,7 @@ public class Mapa {
             int ny = y + dy * i;
             mapaInterno[nx][ny] = e.getNome();
         }
+       
     }
 
     public boolean atacar(int x, int y) {
@@ -111,7 +113,7 @@ public class Mapa {
     public void imprimir() {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
-                System.out.println(mapaVisivel[i][j] + " ");
+                System.out.print(mapaVisivel[i][j] + " ");
             }
             System.out.println();
         }
@@ -121,7 +123,7 @@ public class Mapa {
         //imprime o mapa interno pra debug
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
-                System.out.println(mapaInterno[i][j] + " ");
+                System.out.print(mapaInterno[i][j] + " ");
             }
             System.out.println();
         }
