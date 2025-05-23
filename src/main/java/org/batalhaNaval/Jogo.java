@@ -25,8 +25,6 @@ public class Jogo {
         inicializarNavios();
         this.mapa.posicionar(embarcacoes);
         mapa.imprimirMI();
-        getEmbarcacoes();
-        getMapa();
         imprimirNavios();
         rodada();
     }
